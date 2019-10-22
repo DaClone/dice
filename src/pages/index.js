@@ -43,6 +43,7 @@ const IndexPage = () => {
   }
 
   const [rollResult, setRollResult] = useState([])
+  const resultValues = Array.from(new Set(rollResult)).sort((a, b) => a - b)
   const handleRollDice = () => {
     const results = rollDice(diceNumber, diceSides, useCascading)
     setRollResult(results)
@@ -116,14 +117,28 @@ const IndexPage = () => {
                 {rollResult.reduce((total, result) => total + result, 0)}
               </Typography>
             </Grid>
-            {Array.from(Array(diceSides), (v, i) => {
+            {/* {Array.from(Array(diceSides), (v, i) => {
               const num = i + 1
               const resultNumber = rollResult.filter(result => result === num)
                 .length
+              console.log(diceSides, resultNumber)
               return !!resultNumber ? (
                 <Grid key={`${num}s`} item>
                   <Typography variant="body1" color="textSecondary">
                     {`Number of ${num}'s`}
+                  </Typography>
+                  <Typography variant="body2">{resultNumber}</Typography>
+                </Grid>
+              ) : null
+            })} */}
+            {resultValues.map(value => {
+              console.log(value, rollResult)
+              const resultNumber = rollResult.filter(result => result === value)
+                .length
+              return !!resultNumber ? (
+                <Grid key={`${value}s`} item>
+                  <Typography variant="body1" color="textSecondary">
+                    {`Number of ${value}'s`}
                   </Typography>
                   <Typography variant="body2">{resultNumber}</Typography>
                 </Grid>
