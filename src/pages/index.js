@@ -96,8 +96,40 @@ const IndexPage = () => {
           </Grid>
         </Grid>
         <Grid item xs={6}>
-          <Typography variant="body1">Results</Typography>
-          <Typography variant="body2">{rollResult.join(',')}</Typography>
+          <Grid container spacing={2} direction="column">
+            <Grid item>
+              <Typography variant="h5">Results</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="body1" color="textSecondary">
+                All results
+              </Typography>
+              <Typography variant="body2">
+                {rollResult.sort().join(',')}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="body1" color="textSecondary">
+                Total value
+              </Typography>
+              <Typography variant="body2">
+                {rollResult.reduce((total, result) => total + result, 0)}
+              </Typography>
+            </Grid>
+            {Array.from(Array(diceSides), (v, i) => {
+              const num = i + 1
+              const resultNumber = rollResult.filter(result => result === num)
+                .length
+              return !!resultNumber ? (
+                <Grid key={`${num}s`} item>
+                  <Typography variant="body1" color="textSecondary">
+                    {`Number of ${num}'s`}
+                  </Typography>
+                  <Typography variant="body2">{resultNumber}</Typography>
+                </Grid>
+              ) : null
+            })}
+          </Grid>
         </Grid>
       </Grid>
     </Container>
