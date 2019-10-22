@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-material-ui",
+  "name": "Dice roller",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby and Material UI",
+  "description": "A simple app for rolling dice",
   "version": "0.1.0",
-  "author": "Dominic Abela <djmabela@gmail.com>",
+  "author": "Jesper Westlund <jesper.westlund@gmail.com>",
   "dependencies": {
     "@material-ui/core": "^4.0.1",
     "@material-ui/icons": "^4.2.0",
@@ -24,6 +24,7 @@
     "typeface-roboto": "0.0.54"
   },
   "devDependencies": {
+    "gh-pages": "^2.1.1",
     "prettier": "^1.18.2"
   },
   "keywords": [
@@ -36,13 +37,11 @@
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\"",
+    "deploy": "gatsby build --prefix-paths && gh-pages -d public"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dominicabela/gatsby-starter-material-ui"
-  },
-  "bugs": {
-    "url": "https://github.com/dominicabela/gatsby-starter-material-ui/issues"
+    "url": "https://github.com/daclone/dice"
   }
 }
