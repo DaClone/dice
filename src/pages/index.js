@@ -7,7 +7,6 @@ import {
   TextField,
   Switch,
   Button,
-  Fab,
 } from '@material-ui/core'
 import { Casino as CasinoIcon } from '@material-ui/icons'
 
@@ -16,6 +15,13 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1),
   },
 }))
+
+const rollDice = (number, sides, cascading) => {
+  return Array.from(
+    Array(number),
+    () => Math.floor(sides * Math.random()) + 1
+  ).flatMap(val => (val === sides && cascading ? rollDice(2, sides) : val))
+}
 
 const IndexPage = () => {
   const classes = useStyles()
@@ -34,6 +40,12 @@ const IndexPage = () => {
       target: { value: sides },
     } = event
     setDiceSides(sides)
+  }
+
+  const [rollResult, setRollResult] = useState([])
+  const handleRollDice = () => {
+    const results = rollDice(diceNumber, diceSides, useCascading)
+    setRollResult(results)
   }
 
   const [useCascading, setUseCascading] = useState(true)
@@ -72,7 +84,11 @@ const IndexPage = () => {
               <Switch checked={useCascading} onChange={toggleUseCascading} />
             </Grid>
             <Grid item variant="extended">
-              <Button variant="contained" color="primary">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleRollDice}
+              >
                 <CasinoIcon className={classes.rollIcon} />
                 Roll dice
               </Button>
@@ -81,6 +97,7 @@ const IndexPage = () => {
         </Grid>
         <Grid item xs={6}>
           <Typography variant="body1">Results</Typography>
+          <Typography variant="body2">{rollResult.join(',')}</Typography>
         </Grid>
       </Grid>
     </Container>
