@@ -16,12 +16,14 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const rollDice = (number, sides, cascading) => {
-  return Array.from(
-    Array(number),
-    () => Math.floor(sides * Math.random()) + 1
-  ).flatMap(val => (val === sides && cascading ? rollDice(2, sides) : val))
-}
+const rollDice = (number, sides, cascading) =>
+  Array.from(Array(Number(number)), () => {
+    const result = Math.floor(sides * Math.random()) + 1
+    console.log(result)
+    return result
+  }).flatMap(val =>
+    val === sides && cascading ? rollDice(2, sides, cascading) : val
+  )
 
 const IndexPage = () => {
   const classes = useStyles()
@@ -31,7 +33,7 @@ const IndexPage = () => {
     const {
       target: { value: number },
     } = event
-    setDiceNumber(number)
+    setDiceNumber(Number(number))
   }
 
   const [diceSides, setDiceSides] = useState(6)
@@ -39,11 +41,12 @@ const IndexPage = () => {
     const {
       target: { value: sides },
     } = event
-    setDiceSides(sides)
+    setDiceSides(Number(sides))
   }
 
   const [rollResult, setRollResult] = useState([])
   const resultValues = Array.from(new Set(rollResult)).sort((a, b) => a - b)
+
   const handleRollDice = () => {
     const results = rollDice(diceNumber, diceSides, useCascading)
     setRollResult(results)
@@ -117,22 +120,7 @@ const IndexPage = () => {
                 {rollResult.reduce((total, result) => total + result, 0)}
               </Typography>
             </Grid>
-            {/* {Array.from(Array(diceSides), (v, i) => {
-              const num = i + 1
-              const resultNumber = rollResult.filter(result => result === num)
-                .length
-              console.log(diceSides, resultNumber)
-              return !!resultNumber ? (
-                <Grid key={`${num}s`} item>
-                  <Typography variant="body1" color="textSecondary">
-                    {`Number of ${num}'s`}
-                  </Typography>
-                  <Typography variant="body2">{resultNumber}</Typography>
-                </Grid>
-              ) : null
-            })} */}
             {resultValues.map(value => {
-              console.log(value, rollResult)
               const resultNumber = rollResult.filter(result => result === value)
                 .length
               return !!resultNumber ? (
